@@ -70,6 +70,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
                 if (allGood) {
                     ParseUtil.updateStrengthTable(groupId, groupStrength);
+
                 } else {
                     Toast.makeText(GroupDetailActivity.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
                 }
