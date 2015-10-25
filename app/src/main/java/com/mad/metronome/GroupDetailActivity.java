@@ -1,15 +1,12 @@
 package com.mad.metronome;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Layout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
@@ -94,6 +91,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                         }
                     });
                 }
+                ParseUtil.getSong(groupId,GroupDetailActivity.this);
             }
         });
     }

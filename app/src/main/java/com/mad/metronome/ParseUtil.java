@@ -1,14 +1,20 @@
 package com.mad.metronome;
 
-import android.util.Log;
+import android.content.Context;
+import android.media.MediaPlayer;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.parse.SaveCallback;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -68,7 +74,53 @@ public class ParseUtil {
                 }
             }
         });
-
-
     }
+
+    public static void getSong(String groupId, final Context context){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("messages");
+        query.whereEqualTo("GroupID",groupId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if(e==null){
+                    ParseObject poObject = (ParseObject)list.get(0);
+                    ParseFile songPFFile = (ParseFile) poObject.get("songFile");
+                    songPFFile.getDataInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] bytes, ParseException e) {
+                            try {
+                                // create temp file that will hold byte array
+                                File tempMp3 = File.createTempFile("kurchina", "m4a",context.getCacheDir());
+                                tempMp3.deleteOnExit();
+                                FileOutputStream fos = new FileOutputStream(tempMp3);
+                                fos.write(bytes);
+                                fos.close();
+
+                                // Tried reusing instance of media player
+                                // but that resulted in system crashes...
+                                MediaPlayer mediaPlayer = new MediaPlayer();
+
+                                // Tried passing path directly, but kept getting
+                                // "Prepare failed.: status=0x1"
+                                // so using file descriptor instead
+                                FileInputStream fis = new FileInputStream(tempMp3);
+                                mediaPlayer.setDataSource(fis.getFD());
+
+                                mediaPlayer.prepare();
+                                mediaPlayer.start();
+                            } catch (IOException ex) {
+                                String s = ex.toString();
+                                ex.printStackTrace();
+                            }
+
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+
+
 }
