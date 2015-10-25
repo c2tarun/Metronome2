@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Team Strength (including Leader)"
+            android:text="Team Strength"
             android:id="@+id/strengthLabel" />
         <EditText
             android:layout_width="wrap_content"

@@ -12,9 +12,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.util.List;
+
 public class GroupDetailActivity extends AppCompatActivity {
 
-    EditText groupId;
+    EditText groupIdET;
     CheckBox leaderCB;
     EditText strengthTV;
     Button nextButton;
@@ -25,7 +33,7 @@ public class GroupDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_detail);
 
-        groupId = (EditText) findViewById(R.id.groupIdTV);
+        groupIdET = (EditText) findViewById(R.id.groupIdTV);
         leaderCB = (CheckBox) findViewById(R.id.leaderCB);
         strengthTV = (EditText) findViewById(R.id.strengthTV);
         nextButton = (Button) findViewById(R.id.nextButton);
@@ -48,14 +56,13 @@ public class GroupDetailActivity extends AppCompatActivity {
 
                 boolean allGood = true;
 
-                String groupId = strengthTV.getText().toString();
+                String groupId = groupIdET.getText().toString();
                 if (groupId.isEmpty()) {
                     allGood = false;
                 }
 
                 int groupStrength = 0;
                 if (leaderCB.isChecked()) {
-
                     try {
                         groupStrength = Integer.parseInt(strengthTV.getText().toString());
                     } catch (NumberFormatException e) {
@@ -66,6 +73,20 @@ public class GroupDetailActivity extends AppCompatActivity {
                         Toast.makeText(GroupDetailActivity.this, "Enter valid strength", Toast.LENGTH_LONG).show();
                         allGood = false;
                     }
+                    if (allGood) nextActivity();
+
+                } else {
+                    ParseQuery<ParseObject> query = ParseUtil.getGroupStrengthQuery(groupId);
+                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            if (parseObject == null || e != null) {
+                                Toast.makeText(GroupDetailActivity.this, "Wait for Leader to log in", Toast.LENGTH_SHORT).show();
+                            } else {
+                                nextActivity();
+                            }
+                        }
+                    });
                 }
 
                 if (allGood) {
@@ -76,5 +97,9 @@ public class GroupDetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void nextActivity() {
+
     }
 }
