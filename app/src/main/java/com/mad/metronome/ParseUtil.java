@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by tarun on 10/25/15.
  */
-public class ParseUtil {
+public class ParseUtil extends MediaPlayer{
 
     private static final String TAG = ParseUtil.class.getSimpleName();
     public static final String TB_GROUP_STRENGTH = "GROUP_STRENGTH";
@@ -106,8 +106,8 @@ public class ParseUtil {
                                 FileInputStream fis = new FileInputStream(tempMp3);
                                 mediaPlayer.setDataSource(fis.getFD());
 
-                                mediaPlayer.prepare();
-                                mediaPlayer.start();
+                                mediaPlayer.prepareAsync();
+
                             } catch (IOException ex) {
                                 String s = ex.toString();
                                 ex.printStackTrace();
