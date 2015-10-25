@@ -88,7 +88,7 @@ public class GroupDetailActivity extends AppCompatActivity {
                             if (parseObject == null || e != null) {
                                 Toast.makeText(GroupDetailActivity.this, "Wait for Leader to log in", Toast.LENGTH_SHORT).show();
                             } else {
-                                ParseUtil.insertMemberStatus(ParseUser.getCurrentUser().getUsername(), groupId, "NR");
+                                ParseUtil.insertMemberStatus(groupId, ParseUser.getCurrentUser().getUsername(), "NR");
                                 nextActivity();
                             }
                         }
