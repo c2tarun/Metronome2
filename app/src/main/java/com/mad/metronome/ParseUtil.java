@@ -77,7 +77,7 @@ public class ParseUtil {
     }
 
     public static void getSong(String groupId, final Context context){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("messages");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("GroupID");
         query.whereEqualTo("GroupID",groupId);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
