@@ -17,6 +17,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
                 boolean allGood = true;
 
-                String groupId = groupIdET.getText().toString();
+                final String groupId = groupIdET.getText().toString();
                 if (groupId.isEmpty()) {
                     allGood = false;
                 }
@@ -73,7 +74,11 @@ public class GroupDetailActivity extends AppCompatActivity {
                         Toast.makeText(GroupDetailActivity.this, "Enter valid strength", Toast.LENGTH_LONG).show();
                         allGood = false;
                     }
-                    if (allGood) nextActivity();
+                    if (allGood) {
+                        ParseUtil.updateStrengthTable(groupId, groupStrength);
+                        ParseUtil.insertMemberStatus(ParseUser.getCurrentUser().getUsername(), groupId, "NR");
+                        nextActivity();
+                    }
 
                 } else {
                     ParseQuery<ParseObject> query = ParseUtil.getGroupStrengthQuery(groupId);
@@ -83,17 +88,11 @@ public class GroupDetailActivity extends AppCompatActivity {
                             if (parseObject == null || e != null) {
                                 Toast.makeText(GroupDetailActivity.this, "Wait for Leader to log in", Toast.LENGTH_SHORT).show();
                             } else {
+                                ParseUtil.insertMemberStatus(ParseUser.getCurrentUser().getUsername(), groupId, "NR");
                                 nextActivity();
                             }
                         }
                     });
-                }
-
-                if (allGood) {
-                    ParseUtil.updateStrengthTable(groupId, groupStrength);
-
-                } else {
-                    Toast.makeText(GroupDetailActivity.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
