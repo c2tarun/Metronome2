@@ -25,22 +25,32 @@
         android:checked="false"
         android:layout_marginTop="15dp" />
 
-    <EditText
+    <LinearLayout
+        android:id="@+id/strengthLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:hint="-1"
-        android:id="@+id/strengthTV"
-        android:layout_marginTop="15dp"
-        android:visibility="invisible"
-        android:inputType="number"/>
+        android:orientation="horizontal"
+        android:gravity="center_vertical|center|center_horizontal"
+        android:visibility="gone">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Team Strength (including Leader)"
+            android:id="@+id/strengthLabel" />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:hint="-1"
+            android:id="@+id/strengthTV"
+            android:layout_marginTop="15dp"
+            android:inputType="number"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/textView" />
+
+    </LinearLayout>
+
+
 
     <Button
         android:layout_width="wrap_content"
