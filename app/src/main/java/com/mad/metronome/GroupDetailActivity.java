@@ -1,5 +1,6 @@
 package com.mad.metronome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,14 +10,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-
-import java.util.List;
 
 public class GroupDetailActivity extends AppCompatActivity {
 
@@ -25,6 +23,7 @@ public class GroupDetailActivity extends AppCompatActivity {
     EditText strengthTV;
     Button nextButton;
     View strengthLayout;
+     String groupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class GroupDetailActivity extends AppCompatActivity {
 
                 boolean allGood = true;
 
-                final String groupId = groupIdET.getText().toString();
+                groupId = groupIdET.getText().toString();
                 if (groupId.isEmpty()) {
                     allGood = false;
                 }
@@ -91,12 +90,16 @@ public class GroupDetailActivity extends AppCompatActivity {
                         }
                     });
                 }
-                ParseUtil.getSong(groupId,GroupDetailActivity.this);
+
+
+               // ParseUtil.getSong(groupId,GroupDetailActivity.this);
             }
         });
     }
 
     public void nextActivity() {
-
+        Intent intent = new Intent(this,PlayActivity.class);
+        intent.putExtra("GroupID",groupId);
+        startActivity(intent);
     }
 }
